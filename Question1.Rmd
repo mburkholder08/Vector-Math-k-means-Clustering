@@ -167,3 +167,86 @@ G = np.random.normal(0,1,(10,1))
 # This is (M_3)X + 3G where M_3 denotes the matrix obtained by cubing each entry of M
 ```
 
+##Matthew - part (i) in R for Function B
+
+```{r}
+
+#M^3X + 3G In R
+
+my_element_mult <- function() {
+
+set.seed(162)
+
+M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = TRUE)
+G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+
+M_2 <- matrix(0:0,nrow(M),ncol(M))
+
+for (i in 1:nrow(M)) {
+  for (j in 1:ncol(M)) {
+    for(k in 1:ncol(M)) {
+      M_2[i,j] <- M_2[i,j] + M[i,k] * M[k,j]
+    }
+  }
+}
+
+
+M_3 <- matrix(0:0,nrow(M_2),ncol(M))
+
+for (i in 1:nrow(M_2)) {
+  for (j in 1:ncol(M)) {
+    for (k in 1:ncol(M_2)) {
+      M_3[i,j] <- M_3[i,j] + M_2[i,k] * M[k,j]
+    }
+  }
+}
+
+
+M_3_X <- matrix(0:0,nrow(M_3),ncol(x))
+
+for (i in 1:nrow(M_3)) {
+  for (j in 1:ncol(x)) {
+    for (k in 1:ncol(M_3)) {
+      M_3_X[i,j] <- M_3_X[i,j] + M_3[i,k] * x[k,j]
+    }
+  }
+}
+
+
+q = M_3_X + 3*G
+
+print(q)
+
+}
+
+run_function_r <- my_element_mult()
+
+
+
+```
+
+```{r}
+
+#M^3X + 3G Vectorized in R
+
+my_vectorized_mult <- function() {
+
+set.seed(162)
+
+M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = TRUE)
+G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+
+M_3_X = M %*% M %*% M %*% x
+
+q = M_3_X + 3*G
+
+print(q)
+
+}
+
+run_vectorized_function <- my_vectorized_mult()
+
+```
+
