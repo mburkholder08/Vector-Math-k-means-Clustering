@@ -1,0 +1,80 @@
+---
+title: "Question1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Matthew - part(i) in Python for Function A
+
+```{python}
+
+#MX + NX + G in Python
+
+def python_element_mult():
+
+  import numpy as np
+
+  np.random.seed(33)
+
+  M = np.random.normal(0,1,(10,10))
+  N = np.random.normal(0,1,(10,10))
+  G = np.random.normal(0,1,(10,1))
+  x = np.random.normal(0,1,(10,1))
+
+  M_X = np.array([[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0]])
+
+  for i in range(len(M)):
+    for j in range(len(x[0])):
+      for k in range(len(x)):
+        M_X[i][j] += M[i][k] * x[k][j]
+
+
+  N_X = np.array([[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0]])
+
+  for i in range(len(N)):
+    for j in range(len(x[0])):
+      for k in range(len(x)):
+        N_X[i][j] += N[i][k] * x[k][j]
+
+
+  q = M_X + N_X + G
+
+  print(q)
+  
+python_element_mult()
+
+```
+
+##Matthew - part(ii) in Python for Function A
+
+```{python}
+
+#MX + NX + G Vectorized Calculation
+
+def python_vectorized_mult():
+
+  import numpy as np
+
+  np.random.seed(33)
+
+  M = np.random.normal(0,1,(10,10))
+  N = np.random.normal(0,1,(10,10))
+  G = np.random.normal(0,1,(10,1))
+  x = np.random.normal(0,1,(10,1))
+
+  M_X = M.dot(x)
+
+  N_X = N.dot(x)
+
+  q = M_X + N_X + G
+
+  print(q)
+  
+python_vectorized_mult()
+
+```
+
+
