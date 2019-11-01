@@ -77,4 +77,93 @@ python_vectorized_mult()
 
 ```
 
+## Ben - parts (i) and (iii) in R for function A
+
+```{r}
+set.seed(1234)
+
+X <- rnorm(10)
+M <- matrix(rnorm(10*10), ncol = 10)
+N <- matrix(rnorm(10*10), ncol = 10)
+G <- rnorm(10)
+
+# We create vectors and matrices with entries sampled from N(0,1).
+
+MX <- rep(0, 10)
+NX <- rep(0, 10)
+
+# We create empty vectors to fill
+
+for (i in 1:10){
+  for (j in 1:10){
+      MX[i] = MX[i] + M[i,j] * X[j]
+  }
+}
+
+for (i in 1:10){
+  for (j in 1:10){
+    NX[i] = NX[i] + N[i,j] * X[j]
+  }
+}
+
+# These for loops multiply matrices by vectors by hand.
+
+print(MX + NX + G)
+
+```
+
+## Ben - part (ii) in R for function A
+
+```{r}
+set.seed(1234)
+
+X <- rnorm(10)
+M <- matrix(rnorm(10*10), ncol = 10)
+N <- matrix(rnorm(10*10), ncol = 10)
+G <- rnorm(10)
+
+print(M %*% X + N %*% X + G)
+
+# This time we use the internal commands of R to do the matrix math.
+```
+
+## Ben - part (i) in python for function B
+
+```{python}
+np.random.seed(1234)
+
+X = np.random.normal(0,1,(10,1))
+M = np.random.normal(0,1,(10,10))
+G = np.random.normal(0,1,(10,1))
+
+# We create matrices and vector with entries sampled from N(0,1)
+
+M3_X = np.zeros([10,1])
+
+# We create matrices with zeros, which we will replace with values
+
+for i in range(10):
+    for j in range(10):
+        M3_X[i] = M3_X[i] + M[i,j] ** 3 + X[j]
+    
+# We cube M and multiply by X using a for loop
+        
+print(M3_X + 3 * G)
+```
+
+## Ben - part (ii) in python for function B
+
+```{python}
+np.random.seed(1234)
+
+X = np.random.normal(0,1,(10,1))
+M = np.random.normal(0,1,(10,10))
+G = np.random.normal(0,1,(10,1))
+
+# We create matrices and vector with entries sampled from N(0,1)
+
+(np.multiply(np.multiply(M,M),M)).dot(X) + 3*G
+
+# This is (M_3)X + 3G where M_3 denotes the matrix obtained by cubing each entry of M
+```
 
