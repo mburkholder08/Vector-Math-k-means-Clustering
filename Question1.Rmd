@@ -226,6 +226,8 @@ run_function_r <- my_element_mult()
 
 ```
 
+##Matthew part (ii) in R for Function B
+
 ```{r}
 
 #M^3X + 3G Vectorized in R
