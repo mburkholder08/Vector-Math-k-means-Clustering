@@ -60,5 +60,5 @@ library('fpc')
 plotcluster(wine[,-1], wine_matrix[,p+1])
 ```
 
-
+Clusters 1 and 3 appear to be well-separated with Cluster 2 more sporadic. 
 
