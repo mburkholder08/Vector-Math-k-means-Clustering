@@ -382,27 +382,13 @@ M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = T
 G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
 x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
 
-M_2 <- matrix(0:0,nrow(M),ncol(M))
+M_3 <- matrix(0:0,nrow(M),ncol(M))
 
 for (i in 1:nrow(M)) {
   for (j in 1:ncol(M)) {
-    for(k in 1:ncol(M)) {
-      M_2[i,j] <- M_2[i,j] + M[i,k] * M[k,j]
+      M_3[i,j] <- M_3[i,j] + M[i,j] ** 3
     }
-  }
 }
-
-
-M_3 <- matrix(0:0,nrow(M_2),ncol(M))
-
-for (i in 1:nrow(M_2)) {
-  for (j in 1:ncol(M)) {
-    for (k in 1:ncol(M_2)) {
-      M_3[i,j] <- M_3[i,j] + M_2[i,k] * M[k,j]
-    }
-  }
-}
-
 
 M_3_X <- matrix(0:0,nrow(M_3),ncol(x))
 
@@ -427,11 +413,7 @@ run_function_r <- my_element_mult()
 
 ```
 
-<<<<<<< HEAD
 ##Matthew part (ii) in R for Function B
-=======
-## Matthew part (ii) in R
->>>>>>> 0c325e6dd9a80d6db1bdc35385ff2a7b3b3f3fcc
 
 ```{r}
 
@@ -445,7 +427,7 @@ M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = T
 G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
 x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
 
-M_3_X = M %*% M %*% M %*% x
+M_3_X = M ** 3 %*% x
 
 q = M_3_X + 3*G
 
@@ -457,3 +439,97 @@ run_vectorized_function <- my_vectorized_mult()
 
 ```
 
+##Matthew part (iii) in R for Function B
+
+```{r}
+
+set.seed(162)
+
+time_to_run <- rep(NA,10000)
+
+tic <-proc.time()
+
+
+
+my_element_mult <- list()
+
+for (n in 1:10000) {
+
+M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = TRUE)
+G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+
+M_3 <- matrix(0:0,nrow(M),ncol(M))
+
+for (i in 1:nrow(M)) {
+  for (j in 1:ncol(M)) {
+      M_3[i,j] <- M_3[i,j] + M[i,j] ** 3
+    }
+}
+
+M_3_X <- matrix(0:0,nrow(M_3),ncol(x))
+
+for (i in 1:nrow(M_3)) {
+  for (j in 1:ncol(x)) {
+    for (k in 1:ncol(M_3)) {
+      M_3_X[i,j] <- M_3_X[i,j] + M_3[i,k] * x[k,j]
+    }
+  }
+}
+
+
+my_element_mult[[n]] <- M_3_X + 3*G
+
+time_to_run[n] <- proc.time()["elapsed"] - tic["elapsed"]
+
+}
+
+
+```
+
+```{r}
+
+library(ggplot2)
+time_dataframe <- data.frame(1:10000, time_to_run)
+ggplot(data = time_dataframe, aes(x = time_dataframe[,1], y = time_dataframe$time_to_run)) +
+  geom_point() + labs(title = "Time Elapsed Using For Loops", x = "Number of Runs", y = "Time Elapsed")
+
+```
+
+##Matthew part (iv) in R for Function B
+
+```{r}
+
+set.seed(162)
+
+run_time <- rep(NA,10000)
+
+tic <- proc.time()
+
+my_vectorized_mult <- list()
+
+for (n in 1:10000) {
+
+M <- matrix(data = rnorm(100, mean = 0, sd = 1), nrow = 10, ncol = 10, byrow = TRUE)
+G <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+x <- matrix(data = rnorm(10, mean = 0, sd = 1), nrow = 10, ncol = 1, byrow = TRUE)
+
+M_3_X = M ** 3 %*% x
+
+my_vectorized_mult[[n]] <- M ** 3 %*% x
+
+run_time[n] <- proc.time()["elapsed"] - tic["elapsed"]
+
+}
+
+
+```
+
+```{r}
+
+library(ggplot2)
+vector_time_dataframe <- data.frame(1:10000, run_time)
+ggplot(data = vector_time_dataframe, aes(x = vector_time_dataframe[,1], y = vector_time_dataframe$run_time)) +
+  geom_point() + labs(title = "Time Elapsed Using For Loops", x = "Number of Runs", y = "Time Elapsed")
+
+```
