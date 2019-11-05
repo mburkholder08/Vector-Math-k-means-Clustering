@@ -77,6 +77,105 @@ python_vectorized_mult()
 
 ```
 
+##Matthew - part (iii) in Python for Function A
+
+```{r}
+install.packages("matlib")
+library(matlib)
+```
+
+```{python}
+
+import timeit
+
+import numpy as np
+
+np.random.seed(33)
+
+tic = timeit.default_timer()
+
+# Sets the initial time
+
+time = np.zeros(10000)
+
+
+for n in range(10000):
+
+  M = np.random.normal(0,1,(10,10))
+  N = np.random.normal(0,1,(10,10))
+  G = np.random.normal(0,1,(10,1))
+  x = np.random.normal(0,1,(10,1))
+
+  M_X = np.array([[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0]])
+
+  for i in range(len(M)):
+    for j in range(len(x[0])):
+      for k in range(len(x)):
+        M_X[i][j] += M[i][k] * x[k][j]
+
+
+  N_X = np.array([[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0],[0.0]])
+
+  for i in range(len(N)):
+    for j in range(len(x[0])):
+      for k in range(len(x)):
+        N_X[i][j] += N[i][k] * x[k][j]
+        
+  q = M_X + N_X + G
+  
+  time[n] = timeit.default_timer() - tic
+  
+
+from matplotlib import pyplot as plt
+
+plt.plot(time)
+plt.xlabel('Number of Runs')
+plt.ylabel('Time Elapsed')
+plt.title("Time Elapsed Using For Loops") 
+
+```
+
+##Matthew - part (iv) in Python for Function B
+
+```{python}
+
+import numpy as np
+
+import timeit
+
+np.random.seed(33)
+
+tic = timeit.default_timer()
+
+# Sets the initial time
+
+time = np.zeros(10000)
+
+for n in range(10000):
+
+  M = np.random.normal(0,1,(10,10))
+  N = np.random.normal(0,1,(10,10))
+  G = np.random.normal(0,1,(10,1))
+  x = np.random.normal(0,1,(10,1))
+
+  M_X = M.dot(x)
+  
+  N_X = N.dot(x)
+  
+  q = M_X + N_X + G
+  
+  time[n] = timeit.default_timer() - tic
+  
+
+from matplotlib import pyplot as plt
+
+plt.plot(time)
+plt.xlabel('Number of Runs')
+plt.ylabel('Time Elapsed')
+plt.title("Time Elapsed Using For Loops") 
+
+```
+
 ## Ben - part (i) in R for function A
 
 ```{r}
@@ -269,11 +368,6 @@ print(np.multiply(np.multiply(M,M),M).dot(X) + 3*G)
 ```
 
 ## Ben - part (iii) in python for function B
-
-```{r}
-install.packages("matlib")
-library(matlib)
-```
 
 
 ```{python}
