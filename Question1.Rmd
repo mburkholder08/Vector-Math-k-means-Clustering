@@ -6,6 +6,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+##Note: (Matthew) my version of RStudio not understanding 'matplotlib' for graphing in Python. Code works outside of RStudio. 
+
 
 ## Matthew - part(i) in Python for Function A
 
